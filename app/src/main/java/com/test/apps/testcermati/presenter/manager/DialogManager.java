@@ -11,19 +11,21 @@ import org.androidannotations.annotations.RootContext;
 public class DialogManager {
     @RootContext
     protected Activity activity;
+    private AlertDialog alert;
 
     public void errorDialog(String message) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+        if (alert == null || (alert != null && !alert.isShowing())) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(message)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
 
-                    }
-                });
-
-        final AlertDialog alert = builder.create();
-        alert.show();
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
+        }
     }
 
 }
